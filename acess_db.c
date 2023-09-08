@@ -21,23 +21,27 @@ int connDB(char* fileName, int *rc){
 }
 
 
-int makeQuery(int *rc, char hanzi[]) {
+int makeQuery(int *rc, char hanzi[2]) { 
+  //prepare the query to find the hanzi and sent it to the db
   sqlite3 *db;
   sqlite3_stmt *stmt;
   char  query[80];
-  snprintf(query, sizeof(query),"SELECT pinyin, simplified, english FROM examples WHERE simplified LIKE %c%c%c", '%', hanzi[0], '%');
-    //char *sql = query;
-  printf("%s", query);
-
+  snprintf(query, sizeof(query),"SELECT pinyin, simplified, english FROM examples WHERE simplified LIKE '%s%s%s'%s", "%",hanzi, "%", ";");
+  
+    char *sql = query;
+    connDB("sen_data.db", &(*rc));
+    (*rc) = sqlite3_prepare_v2(db, query, -1, &stmt, NULL);
+    printf("%s", query); 
+    if (rc != SQLITE_OK){ printf("\nQuery failed!\n");} else {printf("\nQuery sucessed\n!");}
   return 0;
 }
 
 int main(){
   int rc;
   int connDB(char fileName[], int *rc);
-  int makeQuery(int *rc, char hanzi[]);
+  int makeQuery(int *rc, char hanzi[2]);
   if (connDB("sen_data.db", &rc) == 0) {
-    printf("Database successfully connected!\n");
+    printf("Database successfully connected!!\n");
     makeQuery(&rc, "爱");
  
  
