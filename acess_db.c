@@ -6,7 +6,7 @@
 //get pinyin meaning and example
 //FIX THE PROBLEM WITH THE QUERY CONCACTENATION AND FINISH THE MAKEQUERY FUNCTION SO THAN I CAN CONVERT THAT RAW DATA
 
-int connDB(char* fileName, int *rc){
+int checkDB(char* fileName, int *rc){
   //open a connection to the data base.
   sqlite3 *db;
   char *user_entry;
@@ -21,7 +21,7 @@ int connDB(char* fileName, int *rc){
 }
 
 
-int makeQuery(int *rc, char hanzi[2]) { 
+int prepQuery(char hanzi[2]) { 
   //prepare the query to find the hanzi and sent it to the db
   sqlite3 *db;
   sqlite3_stmt *stmt;
@@ -29,8 +29,9 @@ int makeQuery(int *rc, char hanzi[2]) {
   snprintf(query, sizeof(query),"SELECT pinyin, simplified, english FROM examples WHERE simplified LIKE '%s%s%s'%s", "%",hanzi, "%", ";");
   
     char *sql = query;
-    connDB("sen_data.db", &(*rc));
-    (*rc) = sqlite3_prepare_v2(db, query, -1, &stmt, NULL);
+    //coconnDB("sen_data.db", &(*rc));
+    //(*rc) = sqlite3_prepare_v2(db, query, -1, &stmt, NULL);
+    int rc = sqlite3_open("sen_data.db", &db);
     printf("%s", query); 
     if (rc != SQLITE_OK){ printf("\nQuery failed!\n");} else {printf("\nQuery sucessed\n!");}
   return 0;
@@ -38,11 +39,11 @@ int makeQuery(int *rc, char hanzi[2]) {
 
 int main(){
   int rc;
-  int connDB(char fileName[], int *rc);
-  int makeQuery(int *rc, char hanzi[2]);
-  if (connDB("sen_data.db", &rc) == 0) {
+  int checkDB(char fileName[], int *rc);
+  int prepQuery(char hanzi[2]);
+  if (checkDB("sen_data.db", &rc) == 0) {
     printf("Database successfully connected!!\n");
-    makeQuery(&rc, "爱");
+    prepQuery("爱");
  
  
 };
