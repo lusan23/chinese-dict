@@ -1,10 +1,10 @@
 #include<stdio.h>
 #include"sqlite/sqlite3.h"
 #include<string.h>
-
+#include<wchar.h>
 //#include"sqlite/sqlite3ext.h"
 //get pinyin meaning and example
-//CREATE A CALLBACK FUNCTION TO PRINT THE RESULT FROM SQLITE3_EXEC
+//FIX THE PROBLEM WITH THE QUERY CONCACTENATION AND FINISH THE MAKEQUERY FUNCTION SO THAN I CAN CONVERT THAT RAW DATA
 
 int connDB(char* fileName, int *rc){
   //open a connection to the data base.
@@ -24,12 +24,11 @@ int connDB(char* fileName, int *rc){
 int makeQuery(int *rc, char hanzi[]) {
   sqlite3 *db;
   sqlite3_stmt *stmt;
-  char query[] = "SELECT pinyin, simplified, english FROM examples WHERE simplified LIKE ";
-  strncat(query, "%", 1);
-  strncat(query, hanzi, 1); 
-  strncat(query, "%;", 2);
-  //char *sql = query;
+  char  query[80];
+  snprintf(query, sizeof(query),"SELECT pinyin, simplified, english FROM examples WHERE simplified LIKE %c%c%c", '%', hanzi[0], '%');
+    //char *sql = query;
   printf("%s", query);
+
   return 0;
 }
 
