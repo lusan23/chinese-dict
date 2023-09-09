@@ -19,11 +19,27 @@ int checkDB(char* fileName, int *rc){
   }
   return 0;
 }
-
+static int callback(void* data, int argc, char** argv, char** azColName) {
+    //data oiubter ti yser0defubed data that you can pass to the callback function
+  //argc the number of columna in the result set.
+  //arv an array of strings representing the values of each column in the current row.
+  //azColName an array 
+  for (int i = 0; i < argc; i++){
+    
+    if (i == 1 && strlen(argv[i]) <= 50 ) {
+      printf("argv[%d]:%s\n",i,argv[i]);
+      
+    
+    }
+  }
+  return 0;
+    
+}
 
 int prepQuery(char hanzi[2]) { 
   //prepare the query to find the hanzi and sent it to the db
   sqlite3 *db;
+  char *err_msg = 0;
   sqlite3_stmt *stmt;
   char  query[80];
   snprintf(query, sizeof(query),"SELECT pinyin, simplified, english FROM examples WHERE simplified LIKE '%s%s%s'%s", "%",hanzi, "%", ";");
@@ -34,6 +50,18 @@ int prepQuery(char hanzi[2]) {
     int rc = sqlite3_open("sen_data.db", &db);
     printf("%s", query); 
     if (rc != SQLITE_OK){ printf("\nQuery failed!\n");} else {printf("\nQuery sucessed\n!");}
+
+    rc = sqlite3_exec(db, sql, callback, 0, &err_msg);
+
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "Failed to select data\n");
+        fprintf(stderr, "SQL error: %s\n", err_msg);
+        sqlite3_free(err_msg);
+        sqlite3_close(db);
+        return 1;
+    } 
+    
+    
   return 0;
 }
 
