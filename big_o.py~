@@ -1,0 +1,12 @@
+def test(n):
+    c = 1
+    tx = 3*n + 3*n + 3*n
+    fx = n * c
+
+    while tx > fx:
+        tx = 3*n + 3*n + 3*n
+        fx = n * c
+
+        c+=n
+
+    print()

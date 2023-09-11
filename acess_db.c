@@ -20,7 +20,6 @@ static int rc;
 
 int checkDB(char* fileName){
   //open a connection to the data base.
-  //sqlite3 *db;
   char *user_entry;
 
   rc = sqlite3_open(fileName, &db);
@@ -32,12 +31,9 @@ int checkDB(char* fileName){
   return 0;
 }
 static int callback(void* data, int argc, char** argv, char** azColName) {
-  //argc the number of columna in the result set.
-  //arv an array of strings representing the values of each column in the current row.
-  //azColName an array
-  //show me the sentence, pinyin and meaning of the example
-  // for (int i = 0; i < argc; i++) {printf("%s", argv[i]);}
-  //store the info on the static variable
+  //get the retrieved data from db and stores it dinamically in hanzi_data struct
+
+  //space complexity O(n)
   hanzi_data.hanzi = malloc(strlen(argv[0]) * sizeof(char));
   hanzi_data.sentence = malloc(strlen(argv[1]) * sizeof(char));
   hanzi_data.english = malloc(strlen(argv[2]) * sizeof(char));
@@ -51,18 +47,21 @@ static int callback(void* data, int argc, char** argv, char** azColName) {
 }
 
 int prepQuery(char hanzi[2]) { 
-  //prepare the query to find the hanzi and sent it to the db
-  //sqlite3 *db;
+  //prepare the query string to find the hanzi and check its syntax
   char *err_msg = 0;
   sqlite3_stmt *stmt;
   char  query[250];
+  //potentially customazible
   snprintf(query, sizeof(query),"SELECT DISTINCT pinyin, simplified, english FROM examples WHERE simplified LIKE '%s%s%s' AND LENGTH(simplified) <= 30  AND  english IS NOT NULL ORDER BY pinyin ASC LIMIT 1%s", "%",hanzi, "%", ";");
   
     char *sql = query;
-
-    //rc = sqlite3_open("sen_data.db", &db);
-    printf("\n%s\n", query); 
-    if (rc != SQLITE_OK){ printf("\nQuery failed!\n");}
+    
+    printf("\n%s\n", query);
+    
+    if (rc != SQLITE_OK){
+      printf("\nQuery failed!\n");
+    }
+    
     else{
       printf("\nQuery sucessed!\n");
     }
