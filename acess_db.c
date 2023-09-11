@@ -4,7 +4,15 @@
 #include<wchar.h>
 //#include"sqlite/sqlite3ext.h"
 //get pinyin meaning and example
-//FIX THE PROBLEM WITH THE QUERY CONCACTENATION AND FINISH THE MAKEQUERY FUNCTION SO THAN I CAN CONVERT THAT RAW DATA
+//tomorrow the pinyin and translatation plus create the data structure to store these data.
+
+typedef  struct {
+  char hanzi[70];
+  char english[70];
+  char sentence[70];
+} dict_cell;
+
+static dict_cell hanzi_data;
 
 int checkDB(char* fileName, int *rc){
   //open a connection to the data base.
@@ -20,18 +28,16 @@ int checkDB(char* fileName, int *rc){
   return 0;
 }
 static int callback(void* data, int argc, char** argv, char** azColName) {
-    //data oiubter ti yser0defubed data that you can pass to the callback function
   //argc the number of columna in the result set.
   //arv an array of strings representing the values of each column in the current row.
-  //azColName an array 
-  for (int i = 0; i < argc; i++){
-    
-    if (i == 1 && strlen(argv[i]) <= 50 ) {
-      printf("argv[%d]:%s\n",i,argv[i]);
-      
-    
-    }
-  }
+  //azColName an array
+  //show me the sentence, pinyin and meaning of the example
+
+  //store the info on the static variable
+  strncpy(hanzi_data.hanzi, argv[0], sizeof(hanzi_data.hanzi));
+  strncpy(hanzi_data.sentence, argv[1], sizeof(hanzi_data.sentence));
+  strncpy(hanzi_data.english, argv[2], sizeof(hanzi_data.english));
+  
   return 0;
     
 }
@@ -41,15 +47,17 @@ int prepQuery(char hanzi[2]) {
   sqlite3 *db;
   char *err_msg = 0;
   sqlite3_stmt *stmt;
-  char  query[80];
-  snprintf(query, sizeof(query),"SELECT pinyin, simplified, english FROM examples WHERE simplified LIKE '%s%s%s'%s", "%",hanzi, "%", ";");
+  char  query[200];
+  snprintf(query, sizeof(query),"SELECT pinyin, simplified, english FROM examples WHERE simplified LIKE '%s%s%s' AND english IS NOT NULL ORDER BY pinyin ASC LIMIT 1%s", "%",hanzi, "%", ";");
   
     char *sql = query;
-    //coconnDB("sen_data.db", &(*rc));
-    //(*rc) = sqlite3_prepare_v2(db, query, -1, &stmt, NULL);
+
     int rc = sqlite3_open("sen_data.db", &db);
-    printf("%s", query); 
-    if (rc != SQLITE_OK){ printf("\nQuery failed!\n");} else {printf("\nQuery sucessed\n!");}
+    printf("\n%s\n", query); 
+    if (rc != SQLITE_OK){ printf("\nQuery failed!\n");}
+    else{
+      printf("\nQuery sucessed!\n");
+    }
 
     rc = sqlite3_exec(db, sql, callback, 0, &err_msg);
 
@@ -65,28 +73,25 @@ int prepQuery(char hanzi[2]) {
   return 0;
 }
 
+
 int main(){
   int rc;
-  int checkDB(char fileName[], int *rc);
+  int checkDB(char fileName[], int * rc);
   int prepQuery(char hanzi[2]);
+  char user_input[4];
+
+  printf("Please insert the chinese word you are looking for:");
+  scanf("%s", user_input);
+  
   if (checkDB("sen_data.db", &rc) == 0) {
     printf("Database successfully connected!!\n");
-    prepQuery("爱");
+    prepQuery(user_input);
+
+    printf("\n%s\n%s\n%s\n", hanzi_data.hanzi, hanzi_data.sentence, hanzi_data.english);
  
  
 };
 
-  
-  /*
-  //prepares a sql query statment
-  sqlite3_stmt *stmt;
-  char *sql = "SELECT pinyin, simplified, english FROM examples WHERE simplified LIKE '%%s%'";
-  char *errMsg;
-  rc = sqlite3_prepare_v2(db, sql, -1, &stmt ,&errMsg);
-
-  if (rc != SQLITE_OK) {fprintf(stderr, "SQL error:%s\n", errMsg);}
-
-  */
     return 0;
 }
 
