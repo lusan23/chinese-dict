@@ -1,11 +1,12 @@
 #include<stdio.h>
 #include"sqlite/sqlite3.h"
 #include<string.h>
-#include<wchar.h>
 #include<stdlib.h>
-//#include"sqlite/sqlite3ext.h"
+
 //get pinyin meaning and example
 //tomorrow the pinyin and translatation plus create the data structure to store these data.
+
+
 
 typedef  struct {
   char *hanzi;

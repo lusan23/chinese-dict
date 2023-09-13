@@ -5,7 +5,7 @@ def test():
     fx = n * c
     while tx > fx:
         tx = 3*n + 3*n + 3*n
-        fx = (n**2)*c
+        fx = (n**2)*cx
         n+=1
 
     print("c=", c, "n=",n)
