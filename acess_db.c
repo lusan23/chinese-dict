@@ -89,8 +89,10 @@ int main(){
   char user_input[10];
 
   printf("Please insert the chinese word/pinyin/english word:");
-  scanf("%s", user_input);
+  fgets(user_input, 9, stdin);
+  user_input[strcspn(user_input, "\n")] = 0;
   
+  printf("%s\n", user_input);
   if (checkDB("sen_data.db") == 0) {
     printf("Database successfully connected!!\n");
     prepQuery(user_input);
