@@ -10,7 +10,7 @@ Chinese Dict (C Version) is an application written in pure C, designed to aid Ch
 
 ## Learning C Through Project
 
-This project serves as a practical learning exercise for C programming, so you might find many beginner in the source code, but im working on it!
+This project serves as a practical learning exercise for C programming, so you might find many problems in the source code, but i'm working on it!
 
 ## How to Use
 
@@ -38,4 +38,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-We hope you find Chinese Dict (C Version) a valuable tool in your journey to master Chinese characters and strengthen your proficiency in C programming. Happy learning!
+I hope you find Chinese Dict (C Version) a valuable tool for learning the chinese language, Happy learning!
