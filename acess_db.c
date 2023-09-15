@@ -6,8 +6,6 @@
 //get pinyin meaning and example
 //tomorrow the pinyin and translatation plus create the data structure to store these data.
 
-
-
 typedef  struct {
   char *hanzi;
   char *english;
