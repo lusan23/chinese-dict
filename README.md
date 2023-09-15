@@ -10,7 +10,7 @@ Chinese Dict (C Version) is an application written in pure C, designed to aid Ch
 
 ## Learning C Through Project
 
-This project serves as a practical learning exercise for C programming. By building a functional application, you'll have the opportunity to apply your C programming skills in a real-world context, further enhancing your proficiency in the language.
+This project serves as a practical learning exercise for C programming, so you might find many beginner in the source code, but im working on it!
 
 ## How to Use
 
