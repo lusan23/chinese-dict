@@ -1,5 +1,4 @@
 # Ignore all files by default
-/sqlite
 big_o.py#
 acces_db
 is_chinese
@@ -9,3 +8,4 @@ main.c~
 version
 version.c
 version.c~
+*c~
