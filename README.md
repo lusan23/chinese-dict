@@ -1,5 +1,5 @@
 # Chinese Dict (C Version)
-
+# WORK IN PROGRESS
 Chinese Dict (C Version) is an application written in pure C, designed to aid Chinese learners in understanding specific Chinese characters (hanzi) by providing contextual usage examples. This program serves as a dictionary where users not only get the meaning of a character but also receive simple sentences to help grasp the character's usage in context.
 
 ## Features
